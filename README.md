@@ -137,9 +137,4 @@ public void openMyAwesomeMenu(Player player) {
 
 <br>
 
-## Why?
-Chest Inventory Menus (commonly referred to as GUIs) are the ubiquitous way to display menus, execute actions and even manage configuration in Spigot plugins.
-However, the Inventory API leveraged to achieve this in Spigot is not designed for menus, making code far more verbose and far less maintainable than it needs to be.
 
-EGUI is a rewrite of my outdated [SpigotPaginatedGUI](https://github.com/masterdoctor/SpigotPaginatedGUI) API including improvements and features I've
-added whilst using the API in my own software that aims to provide a highly readable and concise API for menus.
