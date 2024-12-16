@@ -1,10 +1,10 @@
-package com.samjakob.spigui;
+package fr.elias.EGUI;
 
-import com.samjakob.spigui.menu.SGMenu;
-import com.samjakob.spigui.menu.SGMenuListener;
-import com.samjakob.spigui.menu.SGOpenMenu;
-import com.samjakob.spigui.toolbar.SGDefaultToolbarBuilder;
-import com.samjakob.spigui.toolbar.SGToolbarBuilder;
+import fr.elias.EGUI.menu.SGMenu;
+import fr.elias.EGUI.menu.SGMenuListener;
+import fr.elias.EGUI.menu.SGOpenMenu;
+import fr.elias.EGUI.toolbar.SGDefaultToolbarBuilder;
+import fr.elias.EGUI.toolbar.SGToolbarBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,17 +14,17 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * The core class for the SpiGUI library.<br>
- * One instance of the SpiGUI class is registered for each plugin using it.
+ * The core class for the EGUI library.<br>
+ * One instance of the EGUI class is registered for each plugin using it.
  * <br>
- * The expected usage of SpiGUI is that you register a SpiGUI instance for your
- * plugin with <code>new SpiGUI(this);</code> in your class that extends
+ * The expected usage of EGUI is that you register a EGUI instance for your
+ * plugin with <code>new EGUI(this);</code> in your class that extends
  * <code>JavaPlugin</code>. You can then use the instance you've created throughout
- * your project to create GUIs that use SpiGUI.
+ * your project to create GUIs that use EGUI.
  */
-public class SpiGUI {
+public class EGUI {
 
-    /** The plugin that owns this instance of SpiGUI. */
+    /** The plugin that owns this instance of EGUI. */
     private final JavaPlugin plugin;
 
     /**
@@ -59,16 +59,16 @@ public class SpiGUI {
      * <br>
      * This can be overridden per-inventory, as well as per-plugin using the appropriate methods
      * on either the inventory class ({@link SGMenu}) or your plugin's instance of
-     * {@link SpiGUI}.
+     * {@link EGUI}.
      */
     private SGToolbarBuilder defaultToolbarBuilder = new SGDefaultToolbarBuilder();
 
     /**
-     * Creates an instance of the SpiGUI library associated with a given plugin.
+     * Creates an instance of the EGUI library associated with a given plugin.
      * <br><br>
      * This is intended to be stored as a static field in your plugin with a public static
      * getter (or a public static field - dealer's choice) and you create inventories through
-     * this class by calling {@link #create(String, int)} on the static {@link SpiGUI} field.
+     * this class by calling {@link #create(String, int)} on the static {@link EGUI} field.
      * <br>
      * A lengthy justification of this is provided below, should you care to read it.
      *
@@ -96,9 +96,9 @@ public class SpiGUI {
      * of the {@link SGMenuListener} registered with that plugin seemed like a good way to try
      * and minimize the inconvenience of the approach.
      *
-     * @param plugin The plugin using SpiGUI.
+     * @param plugin The plugin using EGUI.
      */
-    public SpiGUI(JavaPlugin plugin) {
+    public EGUI(JavaPlugin plugin) {
         this.plugin = plugin;
 
         plugin.getServer().getPluginManager().registerEvents(
@@ -174,7 +174,7 @@ public class SpiGUI {
     }
 
     /**
-     * @see SpiGUI#blockDefaultInteractions
+     * @see EGUI#blockDefaultInteractions
      *
      * @param blockDefaultInteractions Whether default inventory interactions should be cancelled.
      */
@@ -183,7 +183,7 @@ public class SpiGUI {
     }
 
     /**
-     * Returns the value of {@link SpiGUI#blockDefaultInteractions} for this plugin.
+     * Returns the value of {@link EGUI#blockDefaultInteractions} for this plugin.
      *
      * @return Whether default inventory interactions should be cancelled.
      */
@@ -192,7 +192,7 @@ public class SpiGUI {
     }
 
     /**
-     * @see SpiGUI#enableAutomaticPagination
+     * @see EGUI#enableAutomaticPagination
      *
      * @param enableAutomaticPagination Whether automatic pagination should be enabled.
      */
@@ -201,7 +201,7 @@ public class SpiGUI {
     }
 
     /**
-     * Returns the value of {@link SpiGUI#enableAutomaticPagination} for this plugin.
+     * Returns the value of {@link EGUI#enableAutomaticPagination} for this plugin.
      *
      * @return Whether automatic pagination is enabled.
      */
@@ -210,7 +210,7 @@ public class SpiGUI {
     }
 
     /**
-     * @see SpiGUI#defaultToolbarBuilder
+     * @see EGUI#defaultToolbarBuilder
      *
      * @param defaultToolbarBuilder The default toolbar builder used for GUIs.
      */
@@ -219,7 +219,7 @@ public class SpiGUI {
     }
 
     /**
-     * @see SpiGUI#defaultToolbarBuilder
+     * @see EGUI#defaultToolbarBuilder
      *
      * @return The default toolbar builder used for GUIs.
      */

@@ -1,7 +1,7 @@
-package com.samjakob.spigui.toolbar;
+package fr.elias.EGUI.toolbar;
 
-import com.samjakob.spigui.menu.SGMenu;
-import com.samjakob.spigui.buttons.SGButton;
+import fr.elias.EGUI.menu.SGMenu;
+import fr.elias.EGUI.buttons.SGButton;
 
 /**
  * An interface for a toolbar button builder.

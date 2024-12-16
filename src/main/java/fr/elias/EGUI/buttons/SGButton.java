@@ -1,4 +1,4 @@
-package com.samjakob.spigui.buttons;
+package fr.elias.EGUI.buttons;
 
 import org.bukkit.inventory.ItemStack;
 

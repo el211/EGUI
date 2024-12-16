@@ -1,18 +1,18 @@
-package com.samjakob.spigui.toolbar;
+package fr.elias.EGUI.toolbar;
 
-import com.samjakob.spigui.SpiGUI;
-import com.samjakob.spigui.buttons.SGButton;
-import com.samjakob.spigui.item.ItemBuilder;
-import com.samjakob.spigui.menu.SGMenu;
+import fr.elias.EGUI.EGUI;
+import fr.elias.EGUI.buttons.SGButton;
+import fr.elias.EGUI.item.ItemBuilder;
+import fr.elias.EGUI.menu.SGMenu;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 
 /**
  * The default implementation of {@link SGToolbarBuilder}.
  * <br>
- * This class is used by default by SpiGUI, but you can override this class by
+ * This class is used by default by EGUI, but you can override this class by
  * extending it and passing your custom implementation to
- * {@link SpiGUI#setDefaultToolbarBuilder(SGToolbarBuilder)}
+ * {@link EGUI#setDefaultToolbarBuilder(SGToolbarBuilder)}
  * (or to use it for a specific menu, pass it to
  * {@link SGMenu#setToolbarBuilder(SGToolbarBuilder)}).
  */

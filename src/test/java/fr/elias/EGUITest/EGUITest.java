@@ -1,9 +1,9 @@
-package com.samjakob.spiguitest;
+package fr.elias.EGUITest;
 
-import com.samjakob.spigui.menu.SGMenu;
-import com.samjakob.spigui.SpiGUI;
-import com.samjakob.spigui.buttons.SGButton;
-import com.samjakob.spigui.item.ItemBuilder;
+import fr.elias.EGUI.menu.SGMenu;
+import fr.elias.EGUI.EGUI;
+import fr.elias.EGUI.buttons.SGButton;
+import fr.elias.EGUI.item.ItemBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -24,22 +24,22 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * SpiGUITest
+ * EGUITest
  * <br>
- * Simple test plugin to showcase some of the functionality of SpiGUI.
+ * Simple test plugin to showcase some of the functionality of EGUI.
  * You can build this from the main repository with the 'testJar' Gradle task.
  *
  * @author SamJakob
  * @version 1.3.0
  */
-public class SpiGUITest extends JavaPlugin {
+public class EGUITest extends JavaPlugin {
 
     /*
     Please feel free to use code from here. Though, do note that it is a very rough proof of concept intended to
-    showcase and test some of the functionality of SpiGUI.
+    showcase and test some of the functionality of EGUI.
     */
 
-    private static SpiGUI spiGUI;
+    private static EGUI EGUI;
 
     // Start: variables for demonstration purposes.
     private final Map<Player, Integer> gems = new HashMap<>();
@@ -47,7 +47,7 @@ public class SpiGUITest extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        spiGUI = new SpiGUI(this);
+        EGUI = new EGUI(this);
     }
 
     @Override
@@ -57,10 +57,10 @@ public class SpiGUITest extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getLabel().equalsIgnoreCase("spigui")) {
+        if (command.getLabel().equalsIgnoreCase("EGUI")) {
 
             if (!(sender instanceof Player)) {
-                sender.sendMessage("[SpiGUI] [ERROR] You must be a player to run this command.");
+                sender.sendMessage("[EGUI] [ERROR] You must be a player to run this command.");
                 return true;
             }
 
@@ -71,8 +71,8 @@ public class SpiGUITest extends JavaPlugin {
             // This is a menu intended to showcase general functionality.
 
             if (args.length == 0) {
-                // Open a test SpiGUI menu.
-                SGMenu myAwesomeMenu = SpiGUITest.getSpiGUI().create("&c&lSpiGUI &c(Page {currentPage}/{maxPage})", 3);
+                // Open a test EGUI menu.
+                SGMenu myAwesomeMenu = EGUITest.getEGUI().create("&c&lEGUI &c(Page {currentPage}/{maxPage})", 3);
 
                 myAwesomeMenu.setToolbarBuilder((slot, page, defaultType, menu) -> {
                     if (slot == 8) {
@@ -94,7 +94,7 @@ public class SpiGUITest extends JavaPlugin {
                     }
 
                     // Fallback to rendering the default button for a slot.
-                    return spiGUI.getDefaultToolbarBuilder().buildToolbarButton(slot, page, defaultType, menu);
+                    return EGUI.getDefaultToolbarBuilder().buildToolbarButton(slot, page, defaultType, menu);
 
                     // Or, alternatively, to render a button when NEITHER a custom per-inventory button OR a fallback
                     // button has been defined:
@@ -104,7 +104,7 @@ public class SpiGUITest extends JavaPlugin {
 
                     // Ensure fallbackButton is not null before rendering. If it is, render an alternative button
                     // instead.
-                    SGButton fallbackButton = spiGUI.getDefaultToolbarBuilder().buildToolbarButton(slot, page, defaultType, menu);
+                    SGButton fallbackButton = EGUI.getDefaultToolbarBuilder().buildToolbarButton(slot, page, defaultType, menu);
                     if (fallbackButton != null) return fallbackButton;
 
                     return new SGButton(new ItemBuilder(Material.BARRIER).name(" ").build());
@@ -204,7 +204,7 @@ public class SpiGUITest extends JavaPlugin {
                                 private SGButton nextColorButton() {
                                     return new SGButton(
                                             new ItemBuilder(Material.STAINED_GLASS_PANE)
-                                                    .name("&" + Integer.toHexString(currentColor) + "&lSpiGUI!!!")
+                                                    .name("&" + Integer.toHexString(currentColor) + "&lEGUI!!!")
                                                     .data(currentColor)
                                                     .build()
                                     );
@@ -246,7 +246,7 @@ public class SpiGUITest extends JavaPlugin {
 
                     // Create a menu with one row, so that pagination values are easy to calculate (each page is a
                     // multiple of 9, then the remainder can just be added to ensure the number of items match up).
-                    SGMenu inventorySizeTest = SpiGUITest.getSpiGUI().create("Test Menu", 1);
+                    SGMenu inventorySizeTest = EGUITest.getEGUI().create("Test Menu", 1);
 
                     IntStream.range(0, size).forEach(i -> inventorySizeTest.addButton(new SGButton(
                             new ItemBuilder(Material.GOLD_ORE).name(String.format("&6Item %d", i + 1))
@@ -259,7 +259,7 @@ public class SpiGUITest extends JavaPlugin {
 
                 case "refreshTest": {
 
-                    SGMenu refreshTestMenu = SpiGUITest.getSpiGUI().create("&bMatches", 1);
+                    SGMenu refreshTestMenu = EGUITest.getEGUI().create("&bMatches", 1);
 
                     // Generate 3 to 8 random matches.
                     List<Match> matches = IntStream.range(0, ThreadLocalRandom.current().nextInt(5) + 3)
@@ -325,8 +325,8 @@ public class SpiGUITest extends JavaPlugin {
         return false;
     }
 
-    public static SpiGUI getSpiGUI() {
-        return spiGUI;
+    public static EGUI getEGUI() {
+        return EGUI;
     }
 
     // The following is mock classes/data for the above test GUIs.

@@ -4,9 +4,9 @@ plugins {
     id 'signing'
 }
 
-group 'com.samjakob'
+group 'fr.elias'
 version '1.4.0'
-uri "https://github.com/SamJakob/SpiGUI"
+uri "https://github.com/SamJakob/EGUI"
 
 java {
     sourceCompatibility = 1.8
@@ -45,16 +45,16 @@ tasks.register('testJar', Jar) {
         include '**'
     }
 
-    archiveBaseName.set("SpiGUITest")
+    archiveBaseName.set("EGUITest")
 }
 
 publishing {
     publications {
-        SpiGUI(MavenPublication) {
+        EGUI(MavenPublication) {
             pom {
-                name = "SpiGUI"
+                name = "EGUI"
                 description = "A comprehensive GUI API for Spigot with pages support."
-                url = 'https://github.com/SamJakob/SpiGUI'
+                url = 'https://github.com/SamJakob/EGUI'
                 packaging = 'jar'
 
                 licenses {
@@ -74,9 +74,9 @@ publishing {
                 }
 
                 scm {
-                    connection = 'scm:git:git://github.com/SamJakob/SpiGUI.git'
-                    developerConnection = 'scm:git:ssh://github.com:SamJakob/SpiGUI.git'
-                    url = 'https://github.com/SamJakob/SpiGUI'
+                    connection = 'scm:git:git://github.com/SamJakob/EGUI.git'
+                    developerConnection = 'scm:git:ssh://github.com:SamJakob/EGUI.git'
+                    url = 'https://github.com/SamJakob/EGUI'
                 }
             }
 
@@ -94,16 +94,17 @@ publishing {
                     : 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
 
             credentials {
-                username = ossrhUsername
-                password = ossrhPassword
+                username = 'el211'
+                password = 'ELIASps4@@'
             }
+
         }
     }
 }
 
 signing {
     useGpgCmd()
-    sign publishing.publications.SpiGUI
+    sign publishing.publications.EGUI
 }
 
 javadoc {

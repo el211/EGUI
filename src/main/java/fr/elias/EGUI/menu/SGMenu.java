@@ -1,9 +1,9 @@
-package com.samjakob.spigui.menu;
+package fr.elias.EGUI.menu;
 
-import com.samjakob.spigui.SpiGUI;
-import com.samjakob.spigui.buttons.SGButton;
-import com.samjakob.spigui.toolbar.SGToolbarBuilder;
-import com.samjakob.spigui.toolbar.SGToolbarButtonType;
+import fr.elias.EGUI.EGUI;
+import fr.elias.EGUI.buttons.SGButton;
+import fr.elias.EGUI.toolbar.SGToolbarBuilder;
+import fr.elias.EGUI.toolbar.SGToolbarButtonType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.HumanEntity;
@@ -25,19 +25,19 @@ import java.util.function.Consumer;
  * <br><br>
  * You do not instantiate this class when you need it - as you would
  * have done with the older version of the library - rather you make a
- * call to {@link SpiGUI#create(String, int)} or {@link SpiGUI#create(String, int, String)}
- * from your plugin's {@link SpiGUI} instance.
+ * call to {@link EGUI#create(String, int)} or {@link EGUI#create(String, int, String)}
+ * from your plugin's {@link EGUI} instance.
  * <br><br>
  * This creates an inventory that is already associated with your plugin.
- * The reason for this is explained in the {@link SpiGUI#SpiGUI(JavaPlugin)}
+ * The reason for this is explained in the {@link EGUI#EGUI(JavaPlugin)}
  * class constructor implementation notes.
  */
 public class SGMenu implements InventoryHolder {
 
-    /** The plugin (owner of the SpiGUI instance) that created this inventory. */
+    /** The plugin (owner of the EGUI instance) that created this inventory. */
     private final JavaPlugin owner;
-    /** The SpiGUI instance that created this inventory. */
-    private final SpiGUI spiGUI;
+    /** The EGUI instance that created this inventory. */
+    private final EGUI EGUI;
 
     /** The title of the inventory. */
     private String name;
@@ -81,7 +81,7 @@ public class SGMenu implements InventoryHolder {
 
     /**
      * Any actions in this list will be blocked immediately without further
-     * processing if they occur in a SpiGUI menu.
+     * processing if they occur in a EGUI menu.
      */
     private HashSet<InventoryAction> blockedMenuActions;
 
@@ -119,20 +119,20 @@ public class SGMenu implements InventoryHolder {
     };
 
     /**
-     * <b>Intended for internal use only. Use {@link SpiGUI#create(String, int)} or {@link SpiGUI#create(String, int, String)}!</b><br>
+     * <b>Intended for internal use only. Use {@link EGUI#create(String, int)} or {@link EGUI#create(String, int, String)}!</b><br>
      * Used by the library internally to construct an SGMenu.
      * <br>
      * The name parameter is color code translated.
      *
      * @param owner                      The JavaPlugin that owns this menu.
-     * @param spiGUI                     The SpiGUI instance associated with this menu.
+     * @param EGUI                     The EGUI instance associated with this menu.
      * @param name                       The name of the menu.
      * @param rowsPerPage                The number of rows per page in the menu.
      * @param tag                        The tag associated with this menu.
      */
-    public SGMenu(JavaPlugin owner, SpiGUI spiGUI, String name, int rowsPerPage, String tag) {
+    public SGMenu(JavaPlugin owner, EGUI EGUI, String name, int rowsPerPage, String tag) {
         this.owner = owner;
-        this.spiGUI = spiGUI;
+        this.EGUI = EGUI;
         this.name = ChatColor.translateAlternateColorCodes('&', name);
         this.rowsPerPage = rowsPerPage;
         this.tag = tag;
@@ -141,14 +141,16 @@ public class SGMenu implements InventoryHolder {
         this.stickiedSlots = new HashSet<>();
 
         this.currentPage = 0;
+        // Initialize permittedMenuClickTypes with default values
+        this.permittedMenuClickTypes = new HashSet<>(Arrays.asList(DEFAULT_PERMITTED_MENU_CLICK_TYPES));
     }
 
     /// INVENTORY SETTINGS ///
 
     /**
-     * This is a per-inventory version of {@link SpiGUI#setBlockDefaultInteractions(boolean)}.
+     * This is a per-inventory version of {@link EGUI#setBlockDefaultInteractions(boolean)}.
      *
-     * @see SpiGUI#setBlockDefaultInteractions(boolean)
+     * @see EGUI#setBlockDefaultInteractions(boolean)
      * @param blockDefaultInteractions Whether the default behavior of click events should be cancelled.
      */
     public void setBlockDefaultInteractions(boolean blockDefaultInteractions) {
@@ -156,9 +158,9 @@ public class SGMenu implements InventoryHolder {
     }
 
     /**
-     * This is a per-inventory version of {@link SpiGUI#areDefaultInteractionsBlocked()}.
+     * This is a per-inventory version of {@link EGUI#areDefaultInteractionsBlocked()}.
      *
-     * @see SpiGUI#areDefaultInteractionsBlocked()
+     * @see EGUI#areDefaultInteractionsBlocked()
      * @return Whether the default behavior of click events should be cancelled.
      */
     public Boolean areDefaultInteractionsBlocked() {
@@ -166,10 +168,10 @@ public class SGMenu implements InventoryHolder {
     }
 
     /**
-     * This is a per-inventory version of {@link SpiGUI#setEnableAutomaticPagination(boolean)}.
-     * If this value is set, it overrides the per-plugin option set in {@link SpiGUI}.
+     * This is a per-inventory version of {@link EGUI#setEnableAutomaticPagination(boolean)}.
+     * If this value is set, it overrides the per-plugin option set in {@link EGUI}.
      *
-     * @see SpiGUI#setEnableAutomaticPagination(boolean)
+     * @see EGUI#setEnableAutomaticPagination(boolean)
      * @param enableAutomaticPagination Whether pagination buttons should be automatically added.
      */
     public void setAutomaticPaginationEnabled(boolean enableAutomaticPagination) {
@@ -177,9 +179,9 @@ public class SGMenu implements InventoryHolder {
     }
 
     /**
-     * This is a per-inventory version of {@link SpiGUI#isAutomaticPaginationEnabled()}.
+     * This is a per-inventory version of {@link EGUI#isAutomaticPaginationEnabled()}.
      *
-     * @see SpiGUI#isAutomaticPaginationEnabled()
+     * @see EGUI#isAutomaticPaginationEnabled()
      * @return Whether pagination buttons should be automatically added.
      */
     public Boolean isAutomaticPaginationEnabled() {
@@ -187,9 +189,9 @@ public class SGMenu implements InventoryHolder {
     }
 
     /**
-     * This is a per-inventory version of ({@link SpiGUI#setDefaultToolbarBuilder(SGToolbarBuilder)}).
+     * This is a per-inventory version of ({@link EGUI#setDefaultToolbarBuilder(SGToolbarBuilder)}).
      *
-     * @see SpiGUI#setDefaultToolbarBuilder(SGToolbarBuilder)
+     * @see EGUI#setDefaultToolbarBuilder(SGToolbarBuilder)
      * @param toolbarBuilder The default toolbar builder used for GUIs.
      */
     public void setToolbarBuilder(SGToolbarBuilder toolbarBuilder) {
@@ -197,9 +199,9 @@ public class SGMenu implements InventoryHolder {
     }
 
     /**
-     * This is a per-inventory version of ({@link SpiGUI#getDefaultToolbarBuilder()}).
+     * This is a per-inventory version of ({@link EGUI#getDefaultToolbarBuilder()}).
      *
-     * @see SpiGUI#getDefaultToolbarBuilder()
+     * @see EGUI#getDefaultToolbarBuilder()
      * @return The default toolbar builder used for GUIs.
      */
     public SGToolbarBuilder getToolbarBuilder() {
@@ -263,7 +265,7 @@ public class SGMenu implements InventoryHolder {
     /**
      * This returns the GUI's tag.
      * <br><br>
-     * The tag is used when getting all open inventories ({@link SpiGUI#findOpenWithTag(String)}) with your chosen tag.
+     * The tag is used when getting all open inventories ({@link EGUI#findOpenWithTag(String)}) with your chosen tag.
      * An example of where this might be useful is with a permission GUI - when
      * the permissions are updated by one user in the GUI, it would be desirable to
      * refresh the state of the permissions GUI for all users observing the GUI.
@@ -278,7 +280,7 @@ public class SGMenu implements InventoryHolder {
      * This sets the GUI's tag.
      *
      * @see #getTag()
-     * @see SpiGUI#findOpenWithTag(String)
+     * @see EGUI#findOpenWithTag(String)
      * @param tag The GUI's tag.
      */
     public void setTag(String tag) {
@@ -650,6 +652,10 @@ public class SGMenu implements InventoryHolder {
      * @return A hashSet of permitted menu click types
      */
     public HashSet<ClickType> getPermittedMenuClickTypes() {
+        if (this.permittedMenuClickTypes == null) {
+            // Initialize with default permitted click types if null
+            this.permittedMenuClickTypes = new HashSet<>(Arrays.asList(DEFAULT_PERMITTED_MENU_CLICK_TYPES));
+        }
         return this.permittedMenuClickTypes;
     }
 
@@ -659,7 +665,8 @@ public class SGMenu implements InventoryHolder {
      * @return A hashSet of blocked menu actions
      */
     public HashSet<InventoryAction> getBlockedMenuActions() {
-        return this.blockedMenuActions;
+        // Ensure the returned HashSet is never null
+        return blockedMenuActions != null ? blockedMenuActions : new HashSet<>();
     }
 
     /**
@@ -676,9 +683,20 @@ public class SGMenu implements InventoryHolder {
      *
      * @param clickTypes One or more click types you want to allow for this menu.
      */
+    /**
+     * Sets the permitted menu click types.
+     * Initializes the permittedMenuClickTypes field if it is null.
+     *
+     * @param clickTypes One or more click types you want to allow for this menu.
+     */
     public void setPermittedMenuClickTypes(ClickType... clickTypes) {
-        this.permittedMenuClickTypes = new HashSet<>(Arrays.asList(clickTypes));
+        if (this.permittedMenuClickTypes == null) {
+            this.permittedMenuClickTypes = new HashSet<>();
+        }
+        this.permittedMenuClickTypes.clear();
+        this.permittedMenuClickTypes.addAll(Arrays.asList(clickTypes));
     }
+
 
     /**
      * Sets the blocked menu actions for the inventory.
@@ -700,10 +718,14 @@ public class SGMenu implements InventoryHolder {
 
     /**
      * Adds a permitted click type to the menu.
+     * Initializes the permittedMenuClickTypes field if it is null.
      *
-     * @param clickType the click type to be added
+     * @param clickType The click type to be added.
      */
     public void addPermittedClickType(ClickType clickType) {
+        if (this.permittedMenuClickTypes == null) {
+            this.permittedMenuClickTypes = new HashSet<>(Arrays.asList(DEFAULT_PERMITTED_MENU_CLICK_TYPES));
+        }
         this.permittedMenuClickTypes.add(clickType);
     }
 
@@ -728,11 +750,14 @@ public class SGMenu implements InventoryHolder {
 
     /**
      * Removes a permitted click type from the list of permitted menu click types.
+     * Safely handles cases where permittedMenuClickTypes is null.
      *
-     * @param clickType the click type to be removed
+     * @param clickType The click type to be removed.
      */
     public void removePermittedClickType(ClickType clickType) {
-        this.permittedMenuClickTypes.remove(clickType);
+        if (this.permittedMenuClickTypes != null) {
+            this.permittedMenuClickTypes.remove(clickType);
+        }
     }
 
     /**
@@ -796,7 +821,7 @@ public class SGMenu implements InventoryHolder {
      */
     @Override
     public Inventory getInventory() {
-        boolean isAutomaticPaginationEnabled = spiGUI.isAutomaticPaginationEnabled();
+        boolean isAutomaticPaginationEnabled = EGUI.isAutomaticPaginationEnabled();
         if (isAutomaticPaginationEnabled() != null) {
             isAutomaticPaginationEnabled = isAutomaticPaginationEnabled();
         }
@@ -832,7 +857,7 @@ public class SGMenu implements InventoryHolder {
 
         // Render the pagination items.
         if (needsPagination) {
-            SGToolbarBuilder toolbarButtonBuilder = spiGUI.getDefaultToolbarBuilder();
+            SGToolbarBuilder toolbarButtonBuilder = EGUI.getDefaultToolbarBuilder();
             if (getToolbarBuilder() != null) {
                 toolbarButtonBuilder = getToolbarBuilder();
             }

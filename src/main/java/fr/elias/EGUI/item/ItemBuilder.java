@@ -1,4 +1,4 @@
-package com.samjakob.spigui.item;
+package fr.elias.EGUI.item;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

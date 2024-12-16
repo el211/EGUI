@@ -1,7 +1,7 @@
-name: SpiGUITest
+name: EGUITest
 version: 1.0.0
-main: com.samjakob.spiguitest.SpiGUITest
+main: fr.elias.EGUItest.EGUITest
 author: SamJakob
 commands:
-  spigui:
-    description: Opens a test SpiGUI.
+  EGUI:
+    description: Opens a test EGUI.

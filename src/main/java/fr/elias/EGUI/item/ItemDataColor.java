@@ -1,4 +1,4 @@
-package com.samjakob.spigui.item;
+package fr.elias.EGUI.item;
 
 /**
  * Items such as glass panes can have variable color. This color is

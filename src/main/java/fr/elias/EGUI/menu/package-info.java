@@ -1,5 +1,5 @@
 /**
  * Menu definitions, including the listener (which handles user events).<br>
- * See: {@link com.samjakob.spigui.menu.SGMenu}.
+ * See: {@link fr.elias.EGUI.menu.SGMenu}.
  */
-package com.samjakob.spigui.menu;
+package fr.elias.EGUI.menu;

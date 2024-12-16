@@ -1,4 +1,4 @@
-package com.samjakob.spigui.menu;
+package fr.elias.EGUI.menu;
 
 import org.bukkit.entity.Player;
 
